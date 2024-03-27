@@ -1,0 +1,86 @@
+{
+    "Comment": "A simple AWS Step Functions state machine that automates a daycare registration workflow.",
+    "StartAt": "Check Information",
+    "States": {
+      "Check Information": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-2:654654631565:function:checkInformatiom",
+        "Next": "Information Check Result"
+      },
+      "Information Check Result": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.statusCode",
+            "NumericEquals": 200,
+            "Next": "Check Age Range"
+          },
+          {
+            "Variable": "$.statusCode",
+            "NumericEquals": 400,
+            "Next": "Notify Missing Info"
+          }
+        ]
+      },
+      "Notify Missing Info": {
+        "Type": "Fail",
+        "Error": "InformationIncomplete",
+        "Cause": "The parent did not provide complete information."
+      },
+      "Check Age Range": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-2:654654631565:function:checkAgeRange",
+        "Next": "Age Check Result"
+      },
+      "Age Check Result": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.statusCode",
+            "NumericEquals": 200,
+            "Next": "Check Spots Availability"
+          },
+          {
+            "Variable": "$.statusCode",
+            "NumericEquals": 400,
+            "Next": "Notify Invalid Age"
+          }
+        ]
+      },
+      "Notify Invalid Age": {
+        "Type": "Fail",
+        "Error": "InvalidAge",
+        "Cause": "The child does not meet the age requirements."
+      },
+      "Check Spots Availability": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-2:654654631565:function:checkSpotsAvailability",
+        "Next": "Spot Availability Result"
+      },
+      "Spot Availability Result": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.statusCode",
+            "NumericEquals": 200,
+            "Next": "Confirm Registration"
+          },
+          {
+            "Variable": "$.statusCode",
+            "NumericEquals": 400,
+            "Next": "Notify No Spots"
+          }
+        ]
+      },
+      "Notify No Spots": {
+        "Type": "Fail",
+        "Error": "NoSpots",
+        "Cause": "There are no spots available."
+      },
+      "Confirm Registration": {
+        "Type": "Task",
+        "Resource": "arn:aws:lambda:us-east-2:654654631565:function:confirmRegistration",
+        "End": true
+      }
+    }
+  }
