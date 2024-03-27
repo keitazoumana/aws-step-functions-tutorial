@@ -12,7 +12,7 @@ This guide uses an example of a daycare registration system to illustrate how to
 
 The repository consists of two main files:
 
-- `LambdaFunctions.py`: This Python script contains all the AWS Lambda functions that are invoked by the step functions. Each function is designed to perform a specific task in the workflow, such as validating registration information, checking the age range, and confirming registration.
+- `LambdaFunctions/LambdaFunctions.py`: This Python script contains all the AWS Lambda functions that are invoked by the step functions. Each function is designed to perform a specific task in the workflow, such as validating registration information, checking the age range, and confirming registration.
 
 - `state_language_code.json`: This file contains the Amazon States Language definition of the step function workflow. It outlines the states and transitions based on the outcome of the Lambda functions.
 
