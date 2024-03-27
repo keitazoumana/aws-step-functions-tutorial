@@ -20,6 +20,9 @@ The repository consists of two main files:
 
 The workflow for the daycare registration system is depicted in an image attached to this guide. It showcases the sequence of steps involved in the registration process:
 
+![Alt text](/images/stepfunctions_graph.png "States Machine")
+
+
 1. **Check Information**: Validates that all necessary information is present in the registration.
 2. **Check Age Range**: Ensures that the child's age is within the acceptable range for the daycare.
 3. **Check Spots Availability**: Checks if there are open spots available in the daycare.
@@ -83,6 +86,8 @@ A sample input JSON is provided to illustrate the format expected by the workflo
   }
 }
 ```
+![Alt text](/images/failure_case.png "Failure Scenario")
+
 
 ### Success Case
 ```json
@@ -118,3 +123,4 @@ A sample input JSON is provided to illustrate the format expected by the workflo
   }
 }
 ```
+![Alt text](/images/success_case.png "Success Scenario")
